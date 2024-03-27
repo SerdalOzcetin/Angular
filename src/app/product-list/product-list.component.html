@@ -1,10 +1,31 @@
+<div class="card mb-3" *ngIf="selectedProduct">
+  <div class="card p-1 border-warning">
+    <div class="row">
+      <div class="col-3">
+        <img
+          src="assets/images/{{ selectedProduct.imageURL }}"
+          alt=""
+          class="img-fluid rounded-start"
+        />
+      </div>
+      <div class="col-9">
+        <div class="card-body">
+          <h5 class="card-title">{{ selectedProduct.name }}</h5>
+          <p class="card-text">
+            {{ selectedProduct.description }}
+          </p>
+          <button (click)="unselectProduct()" class="btn btn-primary">
+            Remove Product
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div *ngIf="products.length > 0; else noProducts">
   <ng-template
-    [ngTemplateOutlet]="productList01"
-    [ngTemplateOutletContext]="{ products: products }"
-  ></ng-template>
-  <ng-template
-    [ngTemplateOutlet]="productList02"
+    [ngTemplateOutlet]="productList"
     [ngTemplateOutletContext]="{ products: products }"
   ></ng-template>
 </div>
@@ -13,34 +34,9 @@
   <div class="alert alert-warning">no Products</div>
 </ng-template>
 
-<ng-template #productList01 let-products="products">
-  <h2>Best Sellers</h2>
-  <div class="row">
-    <div *ngFor="let product of products" class="col-3">
-      <div *ngIf="product.isActive" class="card mb-3">
-        <div class="row">
-          <img
-            src="assets/images/{{ product.imageURL }}"
-            alt=""
-            class="card-img-top"
-          />
-
-          <div class="card-body">
-            <h5 class="card-title">{{ product.name }}</h5>
-            <p class="card-text">
-              {{ product.description }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</ng-template>
-
-<ng-template #productList02 let-products="products">
-  <h2>Most Popular</h2>
+<ng-template #productList let-products="products">
   <div *ngFor="let product of products">
-    <div *ngIf="product.isActive" class="card mb-3">
+    <div *ngIf="product.isActive" class="card mb-3 p-1">
       <div class="row">
         <div class="col-3">
           <img
@@ -55,6 +51,9 @@
             <p class="card-text">
               {{ product.description }}
             </p>
+            <button (click)="selectProduct(product)" class="btn btn-primary">
+              Select Product
+            </button>
           </div>
         </div>
       </div>
